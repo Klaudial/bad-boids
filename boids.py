@@ -23,6 +23,10 @@ boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 xs,ys,xvs,yvs=boids
 
+def fly_to_middle(a,b):
+    xvs[a]=xvs[a]+(xs[b]-xs[a])*0.01/len(xs)
+    yvs[a]=yvs[a]+(ys[b]-ys[a])*0.01/len(xs)
+
 def fly_away(a, b):
     if (xs[a]-xs[b])**2 + (ys[b]-ys[a])**2 < 100:
 	xvs[a]=xvs[a]+(xs[a]-xs[b])
@@ -31,17 +35,11 @@ def fly_away(a, b):
     
 
 def update_boids(boids):
-	#xs,ys,xvs,yvs=boids
-	# Fly towards the middle
 	for i in range(len(xs)):
 		for j in range(len(xs)):
-		      xvs[i]=xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
-		      yvs[i]=yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
-	# Fly away from nearby boids
+		      fly_to_middle(i,j)
 	              fly_away(i, j)
-		      """if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100:
-				xvs[i]=xvs[i]+(xs[i]-xs[j])
-				yvs[i]=yvs[i]+(ys[i]-ys[j])"""
+		      
 	# Try to match speed with nearby boids
 	
 		      if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 10000:
