@@ -14,7 +14,6 @@ span = 50
 def uniformmotion(a,b):
     return random.uniform(a,b)
 
-
 boids_x=[uniformmotion(-450,50.0) for x in range(span)]
 boids_y=[random.uniform(300.0,600.0) for x in range(span)]
 boid_x_velocities=[random.uniform(0,10.0) for x in range(span)]
@@ -22,21 +21,30 @@ boid_y_velocities=[random.uniform(-20.0,20.0) for x in range(span)]
 
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
+xs,ys,xvs,yvs=boids
+
+def fly_away(a, b):
+    if (xs[a]-xs[b])**2 + (ys[b]-ys[a])**2 < 100:
+	xvs[a]=xvs[a]+(xs[a]-xs[b])
+	yvs[a]=yvs[a]+(ys[a]-ys[b])
+    return xvs[a], yvs[b]
+    
+
 def update_boids(boids):
-	xs,ys,xvs,yvs=boids
+	#xs,ys,xvs,yvs=boids
 	# Fly towards the middle
 	for i in range(len(xs)):
 		for j in range(len(xs)):
-			xvs[i]=xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
-			yvs[i]=yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
+		      xvs[i]=xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
+		      yvs[i]=yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
 	# Fly away from nearby boids
-	
-			if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100:
+	              fly_away(i, j)
+		      """if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100:
 				xvs[i]=xvs[i]+(xs[i]-xs[j])
-				yvs[i]=yvs[i]+(ys[i]-ys[j])
+				yvs[i]=yvs[i]+(ys[i]-ys[j])"""
 	# Try to match speed with nearby boids
 	
-			if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 10000:
+		      if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 10000:
 				xvs[i]=xvs[i]+(xvs[j]-xvs[i])*0.125/len(xs)
 				yvs[i]=yvs[i]+(yvs[j]-yvs[i])*0.125/len(xs)
 	# Move according to velocities
