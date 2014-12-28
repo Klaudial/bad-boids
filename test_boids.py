@@ -1,5 +1,5 @@
 from boids import update_boids
-from nose.tools import assert_almost_equal
+from nose.tools import assert_almost_equal, assert_not_equal
 import os
 import yaml
 
