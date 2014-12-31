@@ -23,6 +23,10 @@ boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 xdisp,ydisp,xvel,yvel=boids
 
+def distance(c,d):
+    distance = (xdisp[d]-xdisp[c])**2 + (ydisp[d]-ydisp[c])**2
+    return distance
+
 #ftm stands for "fly to middle"
 ftm_length_numerator = 0.01
 def fly_to_middle(a,b):
@@ -31,7 +35,7 @@ def fly_to_middle(a,b):
 
 fly_away_distance = 100
 def fly_away(a, b):
-    if (xdisp[b]-xdisp[a])**2 + (ydisp[b]-ydisp[a])**2 < fly_away_distance:
+    if distance(a,b) < fly_away_distance:
 	xvel[a]=xvel[a]+(xdisp[a]-xdisp[b])
 	yvel[a]=yvel[a]+(ydisp[a]-ydisp[b])
     return xvel[a], yvel[b]
@@ -39,7 +43,7 @@ def fly_away(a, b):
 distance_for_speed_matching = 10000
 sp_numerator = 0.125        
 def match_nearby_speeds(a,b):
-    if (xdisp[b]-xdisp[a])**2 + (ydisp[b]-ydisp[a])**2 < distance_for_speed_matching:
+    if distance(a,b) < distance_for_speed_matching:
         xvel[a]=xvel[a]+(xvel[b]-xvel[a])*sp_numerator/len(xdisp)
 	yvel[a]=yvel[a]+(yvel[b]-yvel[a])*sp_numerator/len(xdisp)
 	
