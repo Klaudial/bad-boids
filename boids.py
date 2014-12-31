@@ -23,12 +23,13 @@ boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 xs,ys,xvs,yvs=boids
 
+length_numerator = 0.01
 def fly_to_middle(a,b):
-    xvs[a]=xvs[a]+(xs[b]-xs[a])*0.01/len(xs)
-    yvs[a]=yvs[a]+(ys[b]-ys[a])*0.01/len(xs)
+    xvs[a]=xvs[a]+(xs[b]-xs[a])*length_numerator/len(xs)
+    yvs[a]=yvs[a]+(ys[b]-ys[a])*length_numerator/len(xs)
 
 def fly_away(a, b):
-    if (xs[a]-xs[b])**2 + (ys[b]-ys[a])**2 < 100:
+    if (xs[b]-xs[a])**2 + (ys[b]-ys[a])**2 < 100:
 	xvs[a]=xvs[a]+(xs[a]-xs[b])
 	yvs[a]=yvs[a]+(ys[a]-ys[b])
     return xvs[a], yvs[b]
