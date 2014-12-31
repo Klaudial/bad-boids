@@ -33,23 +33,23 @@ def fly_away(a, b):
 	yvs[a]=yvs[a]+(ys[a]-ys[b])
     return xvs[a], yvs[b]
     
+def match_nearby_speeds(a,b):
+    if (xs[b]-xs[a])**2 + (ys[b]-ys[a])**2 < 10000:
+        xvs[a]=xvs[a]+(xvs[b]-xvs[a])*0.125/len(xs)
+	yvs[a]=yvs[a]+(yvs[b]-yvs[a])*0.125/len(xs)
+	
+def move_with_velocities(a):
+      xs[a]=xs[a]+xvs[a]
+      ys[a]=ys[a]+yvs[a]      
 
 def update_boids(boids):
 	for i in range(len(xs)):
 		for j in range(len(xs)):
 		      fly_to_middle(i,j)
 	              fly_away(i, j)
+	              match_nearby_speeds(i,j)
+	        move_with_velocities(i)
 		      
-	# Try to match speed with nearby boids
-	
-		      if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 10000:
-				xvs[i]=xvs[i]+(xvs[j]-xvs[i])*0.125/len(xs)
-				yvs[i]=yvs[i]+(yvs[j]-yvs[i])*0.125/len(xs)
-	# Move according to velocities
-	
-		xs[i]=xs[i]+xvs[i]
-		ys[i]=ys[i]+yvs[i]
-
 
 figure=plt.figure()
 axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
