@@ -23,21 +23,25 @@ boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 xs,ys,xvs,yvs=boids
 
-length_numerator = 0.01
+#ftm stands for "fly to middle"
+ftm_length_numerator = 0.01
 def fly_to_middle(a,b):
-    xvs[a]=xvs[a]+(xs[b]-xs[a])*length_numerator/len(xs)
-    yvs[a]=yvs[a]+(ys[b]-ys[a])*length_numerator/len(xs)
+    xvs[a]=xvs[a]+(xs[b]-xs[a])*ftm_length_numerator/len(xs)
+    yvs[a]=yvs[a]+(ys[b]-ys[a])*ftm_length_numerator/len(xs)
 
+fly_away_distance = 100
 def fly_away(a, b):
-    if (xs[b]-xs[a])**2 + (ys[b]-ys[a])**2 < 100:
+    if (xs[b]-xs[a])**2 + (ys[b]-ys[a])**2 < fly_away_distance:
 	xvs[a]=xvs[a]+(xs[a]-xs[b])
 	yvs[a]=yvs[a]+(ys[a]-ys[b])
     return xvs[a], yvs[b]
-    
+
+distance_for_speed_matching = 10000
+sp_numerator = 0.125        
 def match_nearby_speeds(a,b):
-    if (xs[b]-xs[a])**2 + (ys[b]-ys[a])**2 < 10000:
-        xvs[a]=xvs[a]+(xvs[b]-xvs[a])*0.125/len(xs)
-	yvs[a]=yvs[a]+(yvs[b]-yvs[a])*0.125/len(xs)
+    if (xs[b]-xs[a])**2 + (ys[b]-ys[a])**2 < distance_for_speed_matching:
+        xvs[a]=xvs[a]+(xvs[b]-xvs[a])*sp_numerator/len(xs)
+	yvs[a]=yvs[a]+(yvs[b]-yvs[a])*sp_numerator/len(xs)
 	
 def move_with_velocities(a):
       xs[a]=xs[a]+xvs[a]
