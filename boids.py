@@ -2,7 +2,8 @@
 A deliberately bad implementation of [Boids](http://dl.acm.org/citation.cfm?doid=37401.37406)
 for use as an exercise on refactoring.
 """
-
+from matplotlib import pyplot as plt
+from matplotlib import animation
 import random
 from numpy import array
 
@@ -80,5 +81,4 @@ class Boids(object):
             me.velocity+=delta_v
             # Move according to velocities
             me.position+=me.velocity
-
 
